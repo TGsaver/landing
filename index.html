@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Saver — Скачивайте медиа из Telegram Web</title>
+  <meta name="description" content="Расширение для Chrome, которое позволяет скачивать фото, видео, GIF и копировать тексты из Telegram Web. Быстро, безопасно, приватно.">
+  <meta name="keywords" content="telegram saver, скачать из телеграм, telegram web download, telegram media downloader, chrome extension">
+  <meta name="author" content="TGsaver">
+  <link rel="icon" type="image/png" href="icon128.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══ NAVIGATION ═══ -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#" class="nav-logo">
+        <img src="icon128.png" alt="TGsaver" class="nav-logo-img">
+        <span class="nav-logo-text">Telegram Saver</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="#features" class="nav-link">Возможности</a>
+        <a href="#pricing" class="nav-link">Тарифы</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+      </div>
+      <a href="#pricing" class="nav-cta-btn">Начать бесплатно</a>
+      <button class="nav-mobile-toggle" id="nav-toggle" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-effects">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Расширение для Chrome
+        </div>
+        <h1 class="hero-title">
+          Скачивайте<br>
+          <span class="hero-title-gradient">всё из Telegram</span>
+        </h1>
+        <p class="hero-subtitle">
+          Фото, видео, GIF, голосовые сообщения и тексты — 
+          в один клик прямо из Telegram Web. Быстро, безопасно, приватно.
+        </p>
+        <div class="hero-actions">
+          <a href="#pricing" class="btn btn-primary btn-lg">
+            <span class="btn-icon">⚡</span>
+            Попробовать бесплатно
+          </a>
+          <a href="#features" class="btn btn-outline btn-lg">
+            Узнать больше
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-value">A/K</span>
+            <span class="hero-stat-label">Версии Telegram Web</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-value">0.1с</span>
+            <span class="hero-stat-label">Скорость извлечения</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-value">100%</span>
+            <span class="hero-stat-label">Локальная обработка</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-mockup">
+          <div class="mockup-browser-bar">
+            <div class="mockup-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="mockup-url">web.telegram.org</div>
+          </div>
+          <div class="mockup-content">
+            <div class="mockup-chat">
+              <div class="mockup-msg mockup-msg-media">
+                <div class="mockup-img-placeholder">
+                  <span>📷</span>
+                </div>
+                <div class="mockup-download-btn">
+                  <span>⬇️</span> Скачать
+                </div>
+              </div>
+              <div class="mockup-msg mockup-msg-text">
+                <div class="mockup-text-lines">
+                  <div class="mockup-line" style="width: 90%"></div>
+                  <div class="mockup-line" style="width: 70%"></div>
+                  <div class="mockup-line" style="width: 80%"></div>
+                </div>
+                <div class="mockup-copy-btn">
+                  <span>📋</span> Копировать
+                </div>
+              </div>
+              <div class="mockup-msg mockup-msg-media">
+                <div class="mockup-video-placeholder">
+                  <span>🎬</span>
+                </div>
+                <div class="mockup-download-btn">
+                  <span>⬇️</span> Скачать
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-float-badge hero-float-1">⚡ Умный React-поиск</div>
+        <div class="hero-float-badge hero-float-2">🔒 Работает локально</div>
+        <div class="hero-float-badge hero-float-3">📚 Альбомы</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FEATURES ═══ -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Возможности</span>
+        <h2 class="section-title">Всё, что вам нужно</h2>
+        <p class="section-subtitle">Telegram Saver — это мощный инструмент для работы с контентом в Telegram Web</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card feature-card-highlight">
+          <div class="feature-card-icon">⚡</div>
+          <h3 class="feature-card-title">Умный React-поиск</h3>
+          <p class="feature-card-desc">Мгновенное извлечение прямых ссылок на медиафайлы через DOM-анализ. Без открытия плеера, без задержек.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">📷</div>
+          <h3 class="feature-card-title">Фото и видео</h3>
+          <p class="feature-card-desc">Скачивайте изображения, видео и GIF-анимации в оригинальном качестве одним кликом.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">📝</div>
+          <h3 class="feature-card-title">Копирование текстов</h3>
+          <p class="feature-card-desc">Копируйте тексты сообщений с форматированием. Поддержка всех типов сообщений.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">📚</div>
+          <h3 class="feature-card-title">Очередь альбомов</h3>
+          <p class="feature-card-desc">Автоматическое скачивание всех медиафайлов из постов-слайдшоу одним действием.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">🔒</div>
+          <h3 class="feature-card-title">Приватность</h3>
+          <p class="feature-card-desc">Все данные обрабатываются локально в вашем браузере. Мы не собираем ваши сообщения.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">🌐</div>
+          <h3 class="feature-card-title">Telegram Web A/K</h3>
+          <p class="feature-card-desc">Полная поддержка обеих версий Telegram Web — как версии A, так и версии K.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ HOW IT WORKS ═══ -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Как это работает</span>
+        <h2 class="section-title">Три простых шага</h2>
+        <p class="section-subtitle">Установите расширение и начните скачивать за секунды</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <h3 class="step-title">Установите расширение</h3>
+          <p class="step-desc">Добавьте Telegram Saver из Chrome Web Store в ваш браузер</p>
+        </div>
+        <div class="step-connector"><span>→</span></div>
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <h3 class="step-title">Откройте Telegram Web</h3>
+          <p class="step-desc">Перейдите на web.telegram.org — расширение активируется автоматически</p>
+        </div>
+        <div class="step-connector"><span>→</span></div>
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <h3 class="step-title">Скачивайте контент</h3>
+          <p class="step-desc">Наведите на медиафайл или сообщение и нажмите кнопку скачивания</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PRICING ═══ -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Тарифы</span>
+        <h2 class="section-title">Выберите свой план</h2>
+        <p class="section-subtitle">Начните бесплатно и увеличивайте лимиты по мере необходимости</p>
+      </div>
+      <div class="pricing-grid">
+        <!-- Free -->
+        <div class="pricing-card">
+          <div class="pricing-card-header">
+            <span class="pricing-icon">🆓</span>
+            <h3 class="pricing-name">Free</h3>
+            <div class="pricing-price">
+              <span class="pricing-amount">$0</span>
+              <span class="pricing-period">навсегда</span>
+            </div>
+          </div>
+          <ul class="pricing-features">
+            <li><span class="check">✓</span> 5 медиа / 3 дня</li>
+            <li><span class="check">✓</span> 10 текстов / 3 дня</li>
+            <li><span class="check">✓</span> Базовая скорость</li>
+            <li><span class="check">✓</span> Telegram Web A/K</li>
+          </ul>
+          <a href="#" class="pricing-btn">Начать бесплатно</a>
+        </div>
+
+        <!-- Light -->
+        <div class="pricing-card">
+          <div class="pricing-card-header">
+            <span class="pricing-icon">⚡</span>
+            <h3 class="pricing-name">Light</h3>
+            <div class="pricing-price">
+              <span class="pricing-amount">$4.99</span>
+              <span class="pricing-period">/ мес</span>
+            </div>
+          </div>
+          <ul class="pricing-features">
+            <li><span class="check">✓</span> 20 медиа / день</li>
+            <li><span class="check">✓</span> 40 текстов / день</li>
+            <li><span class="check">✓</span> Базовая скорость</li>
+            <li><span class="check">✓</span> Telegram Web A/K</li>
+          </ul>
+          <a href="#" class="pricing-btn">Выбрать Light</a>
+        </div>
+
+        <!-- Pro -->
+        <div class="pricing-card pricing-card-popular">
+          <div class="pricing-popular-badge">🔥 Популярный</div>
+          <div class="pricing-card-header">
+            <span class="pricing-icon">🚀</span>
+            <h3 class="pricing-name">Pro</h3>
+            <div class="pricing-price">
+              <span class="pricing-amount">$9.99</span>
+              <span class="pricing-period">/ мес</span>
+            </div>
+          </div>
+          <ul class="pricing-features">
+            <li><span class="check">✓</span> 100 медиа / день</li>
+            <li><span class="check">✓</span> 200 текстов / день</li>
+            <li><span class="check highlight">✓</span> Приоритетная скорость</li>
+            <li><span class="check">✓</span> Telegram Web A/K</li>
+          </ul>
+          <a href="#" class="pricing-btn pricing-btn-popular">Выбрать Pro</a>
+        </div>
+
+        <!-- Unlimited -->
+        <div class="pricing-card pricing-card-gold">
+          <div class="pricing-gold-badge">💎 Лучшая цена</div>
+          <div class="pricing-card-header">
+            <span class="pricing-icon">👑</span>
+            <h3 class="pricing-name">Unlimited</h3>
+            <div class="pricing-price">
+              <span class="pricing-amount">$15.99</span>
+              <span class="pricing-period">/ мес</span>
+            </div>
+          </div>
+          <ul class="pricing-features">
+            <li><span class="check">✓</span> ∞ Безлимит медиа</li>
+            <li><span class="check">✓</span> ∞ Безлимит текстов</li>
+            <li><span class="check highlight">✓</span> Максимальная скорость</li>
+            <li><span class="check highlight">✓</span> Ранний доступ к фичам</li>
+          </ul>
+          <a href="#" class="pricing-btn pricing-btn-gold">Выбрать Unlimited</a>
+        </div>
+      </div>
+
+      <div class="pricing-payment-methods">
+        <p>Способы оплаты:</p>
+        <div class="payment-icons-row">
+          <span title="Банковская карта">💳 Карта</span>
+          <span title="СБП">🏦 СБП</span>
+          <span title="Криптовалюта">🪙 Крипто</span>
+          <span title="SberPay">🟢 SberPay</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">FAQ</span>
+        <h2 class="section-title">Частые вопросы</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Как установить расширение?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Перейдите в Chrome Web Store, найдите «Telegram Saver» и нажмите «Добавить в Chrome». Расширение автоматически активируется при открытии Telegram Web.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Это безопасно? Вы видите мои сообщения?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Полностью безопасно. Расширение работает локально в вашем браузере и не отправляет данные на сторонние серверы. Мы не имеем доступа к вашим сообщениям, файлам или аккаунту Telegram.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Какие версии Telegram Web поддерживаются?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Расширение поддерживает обе версии: Telegram Web A (a.telegram.org) и Telegram Web K (k.telegram.org / web.telegram.org).</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Можно ли вернуть деньги?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Да, мы предоставляем полный возврат средств в течение 7 дней после покупки, если вы не удовлетворены сервисом. Свяжитесь с нами для оформления возврата.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Как работает оплата?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Мы принимаем банковские карты, СБП, SberPay и криптовалюту. Оплата обрабатывается через защищённый платёжный шлюз. Подписка продлевается автоматически каждый месяц.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <img src="icon128.png" alt="TGsaver" class="footer-logo">
+        <span class="footer-name">Telegram Saver</span>
+        <p class="footer-desc">Удобное расширение для скачивания медиа из Telegram Web</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Продукт</h4>
+          <a href="#features">Возможности</a>
+          <a href="#pricing">Тарифы</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <a href="mailto:support@tgsaver.app">support@tgsaver.app</a>
+          <a href="https://t.me/tgsaver_robot">Telegram бот</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025–2026 Telegram Saver. Все права защищены.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
