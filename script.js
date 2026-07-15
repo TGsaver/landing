@@ -284,6 +284,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Logout
   document.getElementById('profile-logout-btn').addEventListener('click', () => {
+    const savedUser = localStorage.getItem('tgsaver_user');
+    if (savedUser) {
+      try {
+        const email = JSON.parse(savedUser).email;
+        if (typeof google !== 'undefined' && email) {
+          google.accounts.id.revoke(email, () => {
+            console.log('Revoked Google session for', email);
+          });
+        }
+      } catch (e) {}
+    }
     if (typeof google !== 'undefined') {
       google.accounts.id.disableAutoSelect();
     }
@@ -335,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const data = await res.json();
 
-        if (data.success && data.payUrl) {
+        if (res.ok && data.success && data.payUrl) {
           window.open(data.payUrl, '_blank');
         } else {
           alert(data.error || 'Не удалось создать платёж');
