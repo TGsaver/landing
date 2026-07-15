@@ -298,7 +298,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof google !== 'undefined') {
       google.accounts.id.disableAutoSelect();
     }
+    // Close the profile modal first
+    document.getElementById('profile-section').classList.remove('open');
     updateUILoggedOut();
+    alert('Вы успешно вышли из аккаунта.');
   });
 
   // Check for saved session on load
