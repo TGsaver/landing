@@ -299,4 +299,53 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.removeItem('tgsaver_user');
     }
   }
+
+  // ═══ PRICING / PAYMENT BUTTONS ═══
+
+  document.querySelectorAll('.pricing-btn[data-plan]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const plan = btn.getAttribute('data-plan');
+
+      // Free plan — just scroll to install
+      if (plan === 'free') {
+        document.getElementById('features').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+
+      // Check if user is logged in
+      const user = localStorage.getItem('tgsaver_user');
+      const session = localStorage.getItem('tgsaver_session');
+      if (!user || !session) {
+        // Open login modal
+        document.getElementById('login-modal').classList.add('open');
+        initGoogleSignIn();
+        return;
+      }
+
+      const userData = JSON.parse(user);
+      const originalText = btn.textContent;
+      btn.textContent = 'Генерация... ⏳';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/payments/create-invoice`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: userData.email, plan })
+        });
+        const data = await res.json();
+
+        if (data.success && data.payUrl) {
+          window.open(data.payUrl, '_blank');
+        } else {
+          alert(data.error || 'Не удалось создать платёж');
+        }
+      } catch (err) {
+        alert('Ошибка сети: ' + err.message);
+      } finally {
+        btn.textContent = originalText;
+        btn.disabled = false;
+      }
+    });
+  });
 });

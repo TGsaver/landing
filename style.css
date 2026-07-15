@@ -914,6 +914,12 @@ body {
   color: #000;
 }
 
+.pricing-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none !important;
+}
+
 .pricing-payment-methods {
   text-align: center;
   color: var(--text-muted);
