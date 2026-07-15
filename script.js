@@ -1,7 +1,7 @@
 // ═══ Telegram Saver Landing — Script ═══
 
 const BACKEND_URL = 'https://tgsaver-backend.onrender.com';
-const GOOGLE_WEB_CLIENT_ID = 'PLACEHOLDER_WEB_CLIENT_ID'; // Will be replaced
+const GOOGLE_WEB_CLIENT_ID = '1058038592594-pt2l6tjbapqvolcb2qeapmbm5bdv9er4.apps.googleusercontent.com';
 
 // ═══ GOOGLE SIGN-IN ═══
 
