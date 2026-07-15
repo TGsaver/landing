@@ -369,54 +369,49 @@
     </div>
   </section>
 
-  <!-- ═══ PROFILE ═══ -->
-  <section class="profile-section hidden" id="profile-section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Аккаунт</span>
-        <h2 class="section-title">Мой профиль</h2>
-      </div>
-      <div class="profile-dashboard">
-        <div class="profile-user-card">
-          <img class="profile-avatar" id="profile-avatar" src="" alt="">
-          <div class="profile-user-details">
-            <h3 class="profile-user-name" id="profile-name">Пользователь</h3>
-            <p class="profile-user-email" id="profile-email">user@gmail.com</p>
-          </div>
-          <button class="profile-logout-btn" id="profile-logout-btn">Выйти</button>
+  <!-- ═══ PROFILE MODAL ═══ -->
+  <div class="profile-modal-overlay hidden" id="profile-section">
+    <div class="profile-modal">
+      <button class="login-modal-close" id="profile-modal-close">&times;</button>
+      <div class="profile-modal-header">
+        <img class="profile-avatar" id="profile-avatar" src="" alt="">
+        <div class="profile-user-details">
+          <h3 class="profile-user-name" id="profile-name">Пользователь</h3>
+          <p class="profile-user-email" id="profile-email">user@gmail.com</p>
         </div>
-        <div class="profile-stats-grid">
-          <div class="profile-stat-card">
-            <div class="profile-stat-header">
-              <span>Тарифный план</span>
-              <span class="profile-plan-badge" id="profile-plan">FREE</span>
-            </div>
-            <div class="profile-stat-detail">
-              <span class="profile-reset-timer" id="profile-reset-timer">Сброс через ...</span>
-            </div>
+      </div>
+      <div class="profile-stats-grid">
+        <div class="profile-stat-card">
+          <div class="profile-stat-header">
+            <span>Тарифный план</span>
+            <span class="profile-plan-badge" id="profile-plan">FREE</span>
           </div>
-          <div class="profile-stat-card">
-            <div class="profile-stat-header">
-              <span>📷 Медиа</span>
-              <span class="profile-stat-value" id="profile-media-count">0 / 5</span>
-            </div>
-            <div class="profile-stat-bar">
-              <div class="profile-stat-bar-fill" id="profile-media-bar" style="width: 0%"></div>
-            </div>
+          <div class="profile-stat-detail">
+            <span class="profile-reset-timer" id="profile-reset-timer">Сброс через ...</span>
           </div>
-          <div class="profile-stat-card">
-            <div class="profile-stat-header">
-              <span>📝 Тексты</span>
-              <span class="profile-stat-value" id="profile-text-count">0 / 10</span>
-            </div>
-            <div class="profile-stat-bar">
-              <div class="profile-stat-bar-fill" id="profile-text-bar" style="width: 0%"></div>
-            </div>
+        </div>
+        <div class="profile-stat-card">
+          <div class="profile-stat-header">
+            <span>📷 Медиа</span>
+            <span class="profile-stat-value" id="profile-media-count">0 / 5</span>
+          </div>
+          <div class="profile-stat-bar">
+            <div class="profile-stat-bar-fill" id="profile-media-bar" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="profile-stat-card">
+          <div class="profile-stat-header">
+            <span>📝 Тексты</span>
+            <span class="profile-stat-value" id="profile-text-count">0 / 10</span>
+          </div>
+          <div class="profile-stat-bar">
+            <div class="profile-stat-bar-fill" id="profile-text-bar" style="width: 0%"></div>
           </div>
         </div>
       </div>
+      <button class="profile-logout-btn" id="profile-logout-btn">Выйти из аккаунта</button>
     </div>
-  </section>
+  </div>
 
   <!-- ═══ FOOTER ═══ -->
   <footer class="footer">

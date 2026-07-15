@@ -63,8 +63,9 @@ function updateUILoggedIn(user) {
   // Show profile link in nav
   document.getElementById('nav-profile-link').classList.remove('hidden');
 
-  // Show profile section
+  // Prepare profile modal data (but keep it hidden until clicked)
   document.getElementById('profile-section').classList.remove('hidden');
+  document.getElementById('profile-section').classList.remove('open');
   document.getElementById('profile-avatar').src = user.picture || '';
   document.getElementById('profile-name').textContent = user.name;
   document.getElementById('profile-email').textContent = user.email;
@@ -251,11 +252,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Clicking user info in nav scrolls to profile
-  document.getElementById('nav-user-info').addEventListener('click', () => {
-    const profileSection = document.getElementById('profile-section');
-    if (profileSection) {
-      profileSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Open profile modal
+  function openProfileModal() {
+    const modal = document.getElementById('profile-section');
+    if (modal) {
+      modal.classList.add('open');
+      loadUserLimits();
+    }
+  }
+
+  // Clicking user info in nav opens profile modal
+  document.getElementById('nav-user-info').addEventListener('click', openProfileModal);
+
+  // Profile link in nav opens profile modal
+  document.getElementById('nav-profile-link').addEventListener('click', (e) => {
+    e.preventDefault();
+    openProfileModal();
+  });
+
+  // Close profile modal
+  document.getElementById('profile-modal-close').addEventListener('click', () => {
+    document.getElementById('profile-section').classList.remove('open');
+  });
+
+  // Click outside profile modal to close
+  document.getElementById('profile-section').addEventListener('click', (e) => {
+    if (e.target.id === 'profile-section') {
+      document.getElementById('profile-section').classList.remove('open');
     }
   });
 
