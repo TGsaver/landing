@@ -10,6 +10,7 @@
   <meta name="heleket" content="5d8b1017" />
   <link rel="icon" type="image/png" href="icon128.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,8 +26,19 @@
         <a href="#features" class="nav-link">Возможности</a>
         <a href="#pricing" class="nav-link">Тарифы</a>
         <a href="#faq" class="nav-link">FAQ</a>
+        <a href="#profile-section" class="nav-link hidden" id="nav-profile-link">Профиль</a>
       </div>
-      <a href="#pricing" class="nav-cta-btn">Начать бесплатно</a>
+      <div class="nav-actions">
+        <button class="nav-login-btn" id="nav-login-btn">
+          <span class="nav-login-icon">👤</span>
+          Войти
+        </button>
+        <div class="nav-user-info hidden" id="nav-user-info">
+          <img class="nav-user-avatar" id="nav-user-avatar" src="" alt="">
+          <span class="nav-user-name" id="nav-user-name"></span>
+        </div>
+        <a href="#pricing" class="nav-cta-btn">Начать бесплатно</a>
+      </div>
       <button class="nav-mobile-toggle" id="nav-toggle" aria-label="Меню">
         <span></span><span></span><span></span>
       </button>
@@ -357,6 +369,55 @@
     </div>
   </section>
 
+  <!-- ═══ PROFILE ═══ -->
+  <section class="profile-section hidden" id="profile-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Аккаунт</span>
+        <h2 class="section-title">Мой профиль</h2>
+      </div>
+      <div class="profile-dashboard">
+        <div class="profile-user-card">
+          <img class="profile-avatar" id="profile-avatar" src="" alt="">
+          <div class="profile-user-details">
+            <h3 class="profile-user-name" id="profile-name">Пользователь</h3>
+            <p class="profile-user-email" id="profile-email">user@gmail.com</p>
+          </div>
+          <button class="profile-logout-btn" id="profile-logout-btn">Выйти</button>
+        </div>
+        <div class="profile-stats-grid">
+          <div class="profile-stat-card">
+            <div class="profile-stat-header">
+              <span>Тарифный план</span>
+              <span class="profile-plan-badge" id="profile-plan">FREE</span>
+            </div>
+            <div class="profile-stat-detail">
+              <span class="profile-reset-timer" id="profile-reset-timer">Сброс через ...</span>
+            </div>
+          </div>
+          <div class="profile-stat-card">
+            <div class="profile-stat-header">
+              <span>📷 Медиа</span>
+              <span class="profile-stat-value" id="profile-media-count">0 / 5</span>
+            </div>
+            <div class="profile-stat-bar">
+              <div class="profile-stat-bar-fill" id="profile-media-bar" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="profile-stat-card">
+            <div class="profile-stat-header">
+              <span>📝 Тексты</span>
+              <span class="profile-stat-value" id="profile-text-count">0 / 10</span>
+            </div>
+            <div class="profile-stat-bar">
+              <div class="profile-stat-bar-fill" id="profile-text-bar" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ═══ FOOTER ═══ -->
   <footer class="footer">
     <div class="container footer-container">
@@ -383,6 +444,29 @@
       </div>
     </div>
   </footer>
+
+  <!-- ═══ LOGIN MODAL ═══ -->
+  <div class="login-modal-overlay" id="login-modal">
+    <div class="login-modal">
+      <button class="login-modal-close" id="login-modal-close">&times;</button>
+      <div class="login-modal-header">
+        <img src="icon128.png" alt="TGsaver" class="login-modal-logo">
+        <h3 class="login-modal-title">Вход в аккаунт</h3>
+        <p class="login-modal-subtitle">Войдите, чтобы управлять подпиской и синхронизировать данные с расширением</p>
+      </div>
+      <div id="login-state-initial">
+        <div id="g_id_signin" class="g-signin-wrapper"></div>
+      </div>
+      <div class="hidden" id="login-state-success">
+        <div class="login-success-icon">✅</div>
+        <h4 class="login-success-title">Вход выполнен!</h4>
+        <p class="login-success-msg" id="login-success-msg"></p>
+      </div>
+      <div class="login-modal-info">
+        <p>Используйте тот же Google-аккаунт, что и в расширении Telegram Saver, для синхронизации данных.</p>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
