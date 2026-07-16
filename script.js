@@ -23,6 +23,12 @@ async function handleGoogleSignIn(response) {
   const show = id => { const el = document.getElementById(id); if (el) el.classList.remove('hidden'); };
   const hide = id => { const el = document.getElementById(id); if (el) el.classList.add('hidden'); };
   const setText = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+  const qHide = sel => { const el = document.querySelector(sel); if (el) el.style.display = 'none'; };
+  const qShow = sel => { const el = document.querySelector(sel); if (el) el.style.display = ''; };
+
+  // Скрываем лишний текст при загрузке
+  qHide('.login-modal-subtitle');
+  qHide('.login-modal-info');
 
   hide('login-state-initial');
   hide('login-state-success');
@@ -52,19 +58,31 @@ async function handleGoogleSignIn(response) {
         setTimeout(() => {
           show('login-state-initial');
           hide('login-state-success');
+          qShow('.login-modal-subtitle');
+          qShow('.login-modal-info');
         }, 300);
       }, 1500);
     } else {
       show('login-state-error');
       setText('login-error-msg', data.error || 'Не удалось войти. Попробуйте снова.');
-      setTimeout(() => { hide('login-state-error'); show('login-state-initial'); }, 3000);
+      setTimeout(() => {
+        hide('login-state-error');
+        show('login-state-initial');
+        qShow('.login-modal-subtitle');
+        qShow('.login-modal-info');
+      }, 3000);
     }
   } catch (err) {
     console.error('Login error:', err);
     hide('login-state-loading');
     show('login-state-error');
     setText('login-error-msg', 'Ошибка сети. Сервер временно недоступен, попробуйте через минуту.');
-    setTimeout(() => { hide('login-state-error'); show('login-state-initial'); }, 4000);
+    setTimeout(() => {
+      hide('login-state-error');
+      show('login-state-initial');
+      qShow('.login-modal-subtitle');
+      qShow('.login-modal-info');
+    }, 4000);
   }
 }
 
@@ -294,9 +312,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Сброс модалки входа в начальное состояние
   function resetLoginModal() {
     document.getElementById('login-state-initial').classList.remove('hidden');
-    document.getElementById('login-state-loading').classList.add('hidden');
-    document.getElementById('login-state-success').classList.add('hidden');
-    document.getElementById('login-state-error').classList.add('hidden');
+    const loading = document.getElementById('login-state-loading'); if (loading) loading.classList.add('hidden');
+    const success = document.getElementById('login-state-success'); if (success) success.classList.add('hidden');
+    const error = document.getElementById('login-state-error'); if (error) error.classList.add('hidden');
+    const sub = document.querySelector('.login-modal-subtitle'); if (sub) sub.style.display = '';
+    const info = document.querySelector('.login-modal-info'); if (info) info.style.display = '';
   }
 
   // Login button opens modal
