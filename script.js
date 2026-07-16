@@ -19,16 +19,15 @@ function initGoogleSignIn() {
 }
 
 async function handleGoogleSignIn(response) {
-  // Показываем лоадер
-  const stateInitial = document.getElementById('login-state-initial');
-  const stateLoading = document.getElementById('login-state-loading');
-  const stateSuccess = document.getElementById('login-state-success');
-  const stateError = document.getElementById('login-state-error');
+  // Безопасные хелперы — не падают если элемент не найден
+  const show = id => { const el = document.getElementById(id); if (el) el.classList.remove('hidden'); };
+  const hide = id => { const el = document.getElementById(id); if (el) el.classList.add('hidden'); };
+  const setText = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
 
-  stateInitial.classList.add('hidden');
-  stateLoading.classList.remove('hidden');
-  stateSuccess.classList.add('hidden');
-  stateError.classList.add('hidden');
+  hide('login-state-initial');
+  hide('login-state-success');
+  hide('login-state-error');
+  show('login-state-loading');
 
   try {
     const res = await fetch(`${BACKEND_URL}/api/auth/google-web`, {
@@ -38,46 +37,34 @@ async function handleGoogleSignIn(response) {
     });
     const data = await res.json();
 
-    stateLoading.classList.add('hidden');
+    hide('login-state-loading');
 
     if (data.success) {
       localStorage.setItem('tgsaver_user', JSON.stringify(data.user));
       localStorage.setItem('tgsaver_session', data.sessionToken);
       updateUILoggedIn(data.user);
 
-      // Показываем успех
-      stateSuccess.classList.remove('hidden');
-      document.getElementById('login-success-msg').textContent =
-        `Добро пожаловать, ${data.user.name}!`;
+      show('login-state-success');
+      setText('login-success-msg', `Добро пожаловать, ${data.user.name}!`);
 
-      // Закрываем модалку через 1.5с
       setTimeout(() => {
         document.getElementById('login-modal').classList.remove('open');
         setTimeout(() => {
-          stateInitial.classList.remove('hidden');
-          stateSuccess.classList.add('hidden');
+          show('login-state-initial');
+          hide('login-state-success');
         }, 300);
       }, 1500);
     } else {
-      // Ошибка от сервера
-      stateError.classList.remove('hidden');
-      document.getElementById('login-error-msg').textContent =
-        data.error || 'Не удалось войти. Попробуйте снова.';
-      setTimeout(() => {
-        stateError.classList.add('hidden');
-        stateInitial.classList.remove('hidden');
-      }, 3000);
+      show('login-state-error');
+      setText('login-error-msg', data.error || 'Не удалось войти. Попробуйте снова.');
+      setTimeout(() => { hide('login-state-error'); show('login-state-initial'); }, 3000);
     }
   } catch (err) {
     console.error('Login error:', err);
-    stateLoading.classList.add('hidden');
-    stateError.classList.remove('hidden');
-    document.getElementById('login-error-msg').textContent =
-      'Ошибка сети. Сервер может быть временно недоступен, попробуйте через минуту.';
-    setTimeout(() => {
-      stateError.classList.add('hidden');
-      stateInitial.classList.remove('hidden');
-    }, 4000);
+    hide('login-state-loading');
+    show('login-state-error');
+    setText('login-error-msg', 'Ошибка сети. Сервер временно недоступен, попробуйте через минуту.');
+    setTimeout(() => { hide('login-state-error'); show('login-state-initial'); }, 4000);
   }
 }
 
