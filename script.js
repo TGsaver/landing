@@ -1,45 +1,41 @@
 // ═══ Telegram Saver Landing — Script ═══
 
 const BACKEND_URL = 'https://tgsaver-backend.onrender.com';
-const GOOGLE_WEB_CLIENT_ID = '1058038592594-pt2l6tjbapqvolcb2qeapmbm5bdv9er4.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = '1058038592594-pt2l6tjbapqvolcb2qeapmbm5bdv9er4.apps.googleusercontent.com';
+const OAUTH_REDIRECT_URI = 'https://tgsaver.github.io/';
 
-// ═══ GOOGLE SIGN-IN ═══
+// ═══ GOOGLE OAUTH (простой redirect, как в расширении) ═══
 
-function initGoogleSignIn() {
-  if (typeof google === 'undefined') return;
-  google.accounts.id.initialize({
-    client_id: GOOGLE_WEB_CLIENT_ID,
-    callback: handleGoogleSignIn,
-    auto_select: false
-  });
-  google.accounts.id.renderButton(
-    document.getElementById('g_id_signin'),
-    { theme: 'filled_black', size: 'large', width: 300, text: 'signin_with', shape: 'rectangular', locale: 'ru' }
-  );
+function startGoogleLogin() {
+  const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(OAUTH_REDIRECT_URI)}&response_type=token&scope=openid%20email%20profile&prompt=select_account`;
+  window.location.href = authUrl;
 }
 
-async function handleGoogleSignIn(response) {
-  // Безопасные хелперы — не падают если элемент не найден
+// Обработка OAuth callback (access_token приходит в hash)
+async function handleOAuthCallback(accessToken) {
+  // Чистим URL
+  history.replaceState(null, '', window.location.pathname);
+
+  // Безопасные хелперы
   const show = id => { const el = document.getElementById(id); if (el) el.classList.remove('hidden'); };
   const hide = id => { const el = document.getElementById(id); if (el) el.classList.add('hidden'); };
   const setText = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
   const qHide = sel => { const el = document.querySelector(sel); if (el) el.style.display = 'none'; };
-  const qShow = sel => { const el = document.querySelector(sel); if (el) el.style.display = ''; };
 
-  // Скрываем лишний текст при загрузке
+  // Показываем модалку с лоадером
+  const modal = document.getElementById('login-modal');
+  if (modal) modal.classList.add('open');
   qHide('.login-modal-subtitle');
   qHide('.login-modal-info');
-
   hide('login-state-initial');
-  hide('login-state-success');
   hide('login-state-error');
   show('login-state-loading');
 
   try {
-    const res = await fetch(`${BACKEND_URL}/api/auth/google-web`, {
+    const res = await fetch(`${BACKEND_URL}/api/auth/google`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ idToken: response.credential })
+      body: JSON.stringify({ accessToken })
     });
     const data = await res.json();
 
@@ -47,42 +43,30 @@ async function handleGoogleSignIn(response) {
 
     if (data.success) {
       localStorage.setItem('tgsaver_user', JSON.stringify(data.user));
-      localStorage.setItem('tgsaver_session', data.sessionToken);
+      localStorage.setItem('tgsaver_session', accessToken);
       updateUILoggedIn(data.user);
 
       show('login-state-success');
       setText('login-success-msg', `Добро пожаловать, ${data.user.name}!`);
 
       setTimeout(() => {
-        document.getElementById('login-modal').classList.remove('open');
+        if (modal) modal.classList.remove('open');
         setTimeout(() => {
           show('login-state-initial');
           hide('login-state-success');
-          qShow('.login-modal-subtitle');
-          qShow('.login-modal-info');
+          const sub = document.querySelector('.login-modal-subtitle'); if (sub) sub.style.display = '';
+          const info = document.querySelector('.login-modal-info'); if (info) info.style.display = '';
         }, 300);
       }, 1500);
     } else {
       show('login-state-error');
-      setText('login-error-msg', data.error || 'Не удалось войти. Попробуйте снова.');
-      setTimeout(() => {
-        hide('login-state-error');
-        show('login-state-initial');
-        qShow('.login-modal-subtitle');
-        qShow('.login-modal-info');
-      }, 3000);
+      setText('login-error-msg', data.error || 'Не удалось войти.');
     }
   } catch (err) {
     console.error('Login error:', err);
     hide('login-state-loading');
     show('login-state-error');
-    setText('login-error-msg', 'Ошибка сети. Сервер временно недоступен, попробуйте через минуту.');
-    setTimeout(() => {
-      hide('login-state-error');
-      show('login-state-initial');
-      qShow('.login-modal-subtitle');
-      qShow('.login-modal-info');
-    }, 4000);
+    setText('login-error-msg', 'Ошибка сети. Попробуйте позже.');
   }
 }
 
@@ -319,12 +303,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const info = document.querySelector('.login-modal-info'); if (info) info.style.display = '';
   }
 
-  // Login button opens modal
+  // Login button opens modal (navbar)
   document.getElementById('nav-login-btn').addEventListener('click', () => {
     resetLoginModal();
     document.getElementById('login-modal').classList.add('open');
-    initGoogleSignIn(); // Initialize button when modal opens
   });
+
+  // Кнопка «Войти через Google» в модалке — запускает OAuth
+  const siteGoogleBtn = document.getElementById('site-google-login-btn');
+  if (siteGoogleBtn) {
+    siteGoogleBtn.addEventListener('click', () => {
+      startGoogleLogin();
+    });
+  }
+
+  // Обработка OAuth callback при загрузке страницы
+  if (window.location.hash.includes('access_token')) {
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+    const accessToken = hashParams.get('access_token');
+    if (accessToken) {
+      handleOAuthCallback(accessToken);
+    }
+  }
 
   // Close modal
   document.getElementById('login-modal-close').addEventListener('click', () => {

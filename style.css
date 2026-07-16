@@ -1344,10 +1344,39 @@ body {
   line-height: 1.5;
 }
 
-.g-signin-wrapper {
+.site-google-btn {
   display: flex;
+  align-items: center;
   justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 20px;
   margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: #f1f5f9;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.site-google-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.site-google-btn:active {
+  transform: translateY(0);
+}
+
+.site-google-icon {
+  width: 20px;
+  height: 20px;
 }
 
 .login-modal-info {

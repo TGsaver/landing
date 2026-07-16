@@ -10,7 +10,7 @@
   <meta name="heleket" content="5d8b1017" />
   <link rel="icon" type="image/png" href="icon128.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -450,7 +450,10 @@
         <p class="login-modal-subtitle">Войдите, чтобы управлять подпиской и синхронизировать данные с расширением</p>
       </div>
       <div id="login-state-initial">
-        <div id="g_id_signin" class="g-signin-wrapper"></div>
+        <button class="site-google-btn" id="site-google-login-btn">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G" class="site-google-icon">
+          Войти через Google
+        </button>
       </div>
       <div class="hidden" id="login-state-loading">
         <div class="login-loading-spinner"></div>
