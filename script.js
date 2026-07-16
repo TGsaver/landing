@@ -19,6 +19,17 @@ function initGoogleSignIn() {
 }
 
 async function handleGoogleSignIn(response) {
+  // Показываем лоадер
+  const stateInitial = document.getElementById('login-state-initial');
+  const stateLoading = document.getElementById('login-state-loading');
+  const stateSuccess = document.getElementById('login-state-success');
+  const stateError = document.getElementById('login-state-error');
+
+  stateInitial.classList.add('hidden');
+  stateLoading.classList.remove('hidden');
+  stateSuccess.classList.add('hidden');
+  stateError.classList.add('hidden');
+
   try {
     const res = await fetch(`${BACKEND_URL}/api/auth/google-web`, {
       method: 'POST',
@@ -26,27 +37,47 @@ async function handleGoogleSignIn(response) {
       body: JSON.stringify({ idToken: response.credential })
     });
     const data = await res.json();
+
+    stateLoading.classList.add('hidden');
+
     if (data.success) {
       localStorage.setItem('tgsaver_user', JSON.stringify(data.user));
       localStorage.setItem('tgsaver_session', data.sessionToken);
       updateUILoggedIn(data.user);
-      // Show success in modal
-      document.getElementById('login-state-initial').classList.add('hidden');
-      document.getElementById('login-state-success').classList.remove('hidden');
+
+      // Показываем успех
+      stateSuccess.classList.remove('hidden');
       document.getElementById('login-success-msg').textContent =
         `Добро пожаловать, ${data.user.name}!`;
-      // Close modal after 1.5s
+
+      // Закрываем модалку через 1.5с
       setTimeout(() => {
         document.getElementById('login-modal').classList.remove('open');
-        // Reset modal state
         setTimeout(() => {
-          document.getElementById('login-state-initial').classList.remove('hidden');
-          document.getElementById('login-state-success').classList.add('hidden');
+          stateInitial.classList.remove('hidden');
+          stateSuccess.classList.add('hidden');
         }, 300);
       }, 1500);
+    } else {
+      // Ошибка от сервера
+      stateError.classList.remove('hidden');
+      document.getElementById('login-error-msg').textContent =
+        data.error || 'Не удалось войти. Попробуйте снова.';
+      setTimeout(() => {
+        stateError.classList.add('hidden');
+        stateInitial.classList.remove('hidden');
+      }, 3000);
     }
   } catch (err) {
     console.error('Login error:', err);
+    stateLoading.classList.add('hidden');
+    stateError.classList.remove('hidden');
+    document.getElementById('login-error-msg').textContent =
+      'Ошибка сети. Сервер может быть временно недоступен, попробуйте через минуту.';
+    setTimeout(() => {
+      stateError.classList.add('hidden');
+      stateInitial.classList.remove('hidden');
+    }, 4000);
   }
 }
 
@@ -124,6 +155,47 @@ async function loadUserLimits() {
   } catch (err) {
     console.error('Failed to load limits:', err);
   }
+}
+
+// ═══ TOAST NOTIFICATIONS ═══
+
+function showSiteToast(message) {
+  const old = document.getElementById('site-toast');
+  if (old) old.remove();
+
+  const toast = document.createElement('div');
+  toast.id = 'site-toast';
+  toast.textContent = message;
+  Object.assign(toast.style, {
+    position: 'fixed',
+    top: '24px',
+    right: '24px',
+    zIndex: '999999',
+    background: 'linear-gradient(135deg, #1e293b, #0f172a)',
+    color: '#f1f5f9',
+    padding: '14px 28px',
+    borderRadius: '14px',
+    fontFamily: "'Inter', sans-serif",
+    fontSize: '14px',
+    fontWeight: '500',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
+    opacity: '0',
+    transform: 'translateY(-12px)',
+    transition: 'opacity 0.3s ease, transform 0.3s ease'
+  });
+  document.body.appendChild(toast);
+
+  requestAnimationFrame(() => {
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateY(0)';
+  });
+
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(-12px)';
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
 }
 
 // ═══ DOM READY ═══
@@ -232,10 +304,17 @@ document.addEventListener('DOMContentLoaded', () => {
     item.style.transitionDelay = `${i * 0.08}s`;
   });
 
-  // ═══ LOGIN / AUTH EVENT LISTENERS ═══
+  // Сброс модалки входа в начальное состояние
+  function resetLoginModal() {
+    document.getElementById('login-state-initial').classList.remove('hidden');
+    document.getElementById('login-state-loading').classList.add('hidden');
+    document.getElementById('login-state-success').classList.add('hidden');
+    document.getElementById('login-state-error').classList.add('hidden');
+  }
 
   // Login button opens modal
   document.getElementById('nav-login-btn').addEventListener('click', () => {
+    resetLoginModal();
     document.getElementById('login-modal').classList.add('open');
     initGoogleSignIn(); // Initialize button when modal opens
   });
@@ -243,12 +322,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Close modal
   document.getElementById('login-modal-close').addEventListener('click', () => {
     document.getElementById('login-modal').classList.remove('open');
+    setTimeout(resetLoginModal, 300);
   });
 
   // Click outside to close
   document.getElementById('login-modal').addEventListener('click', (e) => {
     if (e.target.id === 'login-modal') {
       document.getElementById('login-modal').classList.remove('open');
+      setTimeout(resetLoginModal, 300);
     }
   });
 
@@ -301,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close the profile modal first
     document.getElementById('profile-section').classList.remove('open');
     updateUILoggedOut();
-    alert('Вы успешно вышли из аккаунта.');
+    showSiteToast('👋 Вы успешно вышли из аккаунта');
   });
 
   // Check for saved session on load
@@ -352,10 +433,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (res.ok && data.success && data.payUrl) {
           window.open(data.payUrl, '_blank');
         } else {
-          alert(data.error || 'Не удалось создать платёж');
+          showSiteToast('❌ ' + (data.error || 'Не удалось создать платёж'));
         }
       } catch (err) {
-        alert('Ошибка сети: ' + err.message);
+        showSiteToast('❌ Ошибка сети: ' + err.message);
       } finally {
         btn.textContent = originalText;
         btn.disabled = false;

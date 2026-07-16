@@ -349,11 +349,11 @@
         </div>
         <div class="faq-item">
           <button class="faq-question" aria-expanded="false">
-            <span>Можно ли вернуть деньги?</span>
+            <span>На скольких устройствах можно использовать?</span>
             <span class="faq-toggle">+</span>
           </button>
           <div class="faq-answer">
-            <p>Да, мы предоставляем полный возврат средств в течение 7 дней после покупки, если вы не удовлетворены сервисом. Свяжитесь с нами для оформления возврата.</p>
+            <p>Подписка привязана к вашему Google-аккаунту. Вы можете использовать расширение на любом количестве устройств — просто войдите в тот же аккаунт. Лимиты общие для всех устройств.</p>
           </div>
         </div>
         <div class="faq-item">
@@ -452,10 +452,19 @@
       <div id="login-state-initial">
         <div id="g_id_signin" class="g-signin-wrapper"></div>
       </div>
+      <div class="hidden" id="login-state-loading">
+        <div class="login-loading-spinner"></div>
+        <p class="login-loading-text">Подключение к серверу...</p>
+      </div>
       <div class="hidden" id="login-state-success">
         <div class="login-success-icon">✅</div>
         <h4 class="login-success-title">Вход выполнен!</h4>
         <p class="login-success-msg" id="login-success-msg"></p>
+      </div>
+      <div class="hidden" id="login-state-error">
+        <div class="login-success-icon">❌</div>
+        <h4 class="login-success-title" style="color: #ef4444;">Ошибка входа</h4>
+        <p class="login-success-msg" id="login-error-msg"></p>
       </div>
       <div class="login-modal-info">
         <p>Используйте тот же Google-аккаунт, что и в расширении Telegram Saver, для синхронизации данных.</p>
